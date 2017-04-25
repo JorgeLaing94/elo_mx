@@ -19,8 +19,10 @@ seasons = range(1, 32) + [55, 57, 66, 70, 80, 82, 92, 96, 105, 110, 120]
 
 data = []
 
-for s in seasons:
+for s in [120]:
+    print "geting season {0}...".format(s)
     for i in match_days:
+        print "  ...game {0}".format(i)
         # Each match day is stored in a different url, so we need to make one
         # request for each match_day.
         url = "http://www.vivoelfutbol.com.mx/jornada.php?to=1&te={0}&jo={1}"\
@@ -35,10 +37,14 @@ for s in seasons:
                 if (dp.attrib['class'] in ['eql', 'eqv']):
                     game_dict[dp.attrib['class']] = dp[0].text
                 if (dp.attrib['class'] == 'mar'):
-                    gol, gov = dp[0].text.split('-')
-                    game_dict['gol'] = int(gol)
-                    game_dict['gov'] = int(gov)
-            data.append(game_dict)
+                    try:
+                        gol, gov = dp[0].text.split('-')
+                        game_dict['gol'] = int(gol)
+                        game_dict['gov'] = int(gov)
+                        data.append(game_dict)
+                    except ValueError:
+                        print("Game has not happened yet!")
+            
 
 columns = ['t', 'j', 'eql', 'eqv', 'gol', 'gov']
 df = pd.DataFrame.from_records(data, columns=columns)
