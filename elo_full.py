@@ -63,26 +63,28 @@ for i in range(len(df)):
     elo_scores.loc[len(elo_scores)] =\
         {'ds':date, 'team':eqv, 't':t, 'j':j, 'elo':elo_eqv}
 
-#PLOT
-title = 'Elo Rankings - Liga MX'
-traces = []
+elo_scores[elo_scores['ds'].notnull()].to_csv(path_or_buf='elo_scores.csv')
 
-for team in names:
-    to_plot = elo_scores[elo_scores['ds'].notnull()].query("team == '{0}'"\
-        .format(team))
-    traces.append(go.Scatter(
-        x=list((to_plot['ds'])),
-        y=list(to_plot['elo']),
-        mode='lines',
-        connectgaps=False,
-        name=team,
-    ))
-
-layout = dict(title = title,
-              xaxis = dict(title = 'Date'),
-              yaxis = dict(title = 'Elo Score'),
-              )
-
-len(traces)
-fig = dict(data=traces, layout=layout)
-py.iplot(fig, filename='styled-line')
+# #PLOT
+# title = 'Elo Rankings - Liga MX'
+# traces = []
+#
+# for team in names:
+#     to_plot = elo_scores[elo_scores['ds'].notnull()].query("team == '{0}'"\
+#         .format(team))
+#     traces.append(go.Scatter(
+#         x=list((to_plot['ds'])),
+#         y=list(to_plot['elo']),
+#         mode='lines',
+#         connectgaps=False,
+#         name=team,
+#     ))
+#
+# layout = dict(title = title,
+#               xaxis = dict(title = 'Date'),
+#               yaxis = dict(title = 'Elo Score'),
+#               )
+#
+# len(traces)
+# fig = dict(data=traces, layout=layout)
+# py.iplot(fig, filename='styled-line')
